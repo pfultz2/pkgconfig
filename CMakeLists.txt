@@ -66,8 +66,10 @@ configure_file(check/config.sh.in ${CMAKE_SOURCE_DIR}/check/config.sh)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -C ${CMAKE_CFG_INTDIR})
 
+find_program(TEST_SHELL NAMES bash ksh sh)
+
 macro(check_test TEST_NAME)
-    add_test(NAME check-${TEST_NAME} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/check COMMAND check-${TEST_NAME})
+    add_test(NAME check-${TEST_NAME} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/check COMMAND ${TEST_SHELL} check-${TEST_NAME})
     set_tests_properties(check-${TEST_NAME} PROPERTIES ENVIRONMENT "srcdir=${CMAKE_SOURCE_DIR}/check;PKG_CONFIG=${CMAKE_BINARY_DIR}/pkg-config")
 endmacro()
 
